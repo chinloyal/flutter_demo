@@ -1,0 +1,27 @@
+#!/bin/bash
+
+. "./.hooks/utils/log.sh"
+
+i "Linting project...";
+
+.fvm/flutter_sdk/bin/flutter format --set-exit-if-changed . || fvm flutter format --set-exit-if-changed . || flutter format --set-exit-if-changed .
+
+if [[ $? != 0 ]]; then
+    warn "Your files have been reformatted, please re-stage and commit again."
+    exit 1
+fi
+
+
+.fvm/flutter_sdk/bin/flutter analyze || fvm flutter analyze || flutter analyze
+
+if [[ $? != 0 ]]; then
+    error "Linting failed, Please fix the issues listed above to commit."
+    exit 1
+fi
+
+.fvm/flutter_sdk/bin/flutter test || fvm flutter test || flutter test
+
+if [[ $? != 0 ]]; then
+    error "Make sure your tests are passing before committing."
+    exit 1
+fi

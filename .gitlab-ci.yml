@@ -1,0 +1,95 @@
+.macos_buildcloud_runners:
+  tags:
+    - shared-macos-amd64
+  image: macos-11-xcode-12
+variables:
+  FLUTTER_VERSION: 2.5.3
+  ANDROID_KEYSTORE_FILE: key.keystore
+
+stages:
+  - Testing
+  - Build
+  - Deploy
+
+before_script:
+  - curl -sLO https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_$FLUTTER_VERSION-stable.zip
+  - unzip flutter_macos_$FLUTTER_VERSION-stable.zip
+  - export PATH="$PATH:`pwd`/flutter/bin"
+  - export BUILD_NUMBER=$(date +%Y%m%d)$CI_PIPELINE_IID
+  - cp config/.env.example config/.env
+  - flutter pub get
+  - flutter packages pub run build_runner build --delete-conflicting-outputs
+
+linting:
+  extends: .macos_buildcloud_runners
+  stage: Testing
+  script: |
+    flutter analyze
+
+tests:
+  extends: .macos_buildcloud_runners
+  stage: Testing
+  script: |
+    flutter test --coverage
+    curl -O https://raw.githubusercontent.com/eriwen/lcov-to-cobertura-xml/master/lcov_cobertura/lcov_cobertura.py
+    python3 lcov_cobertura.py coverage/lcov.info --output coverage/coverage.xml
+  artifacts:
+    when: always
+    reports:
+      cobertura:
+        - coverage/coverage.xml
+
+android_prod_build:
+  extends: .macos_buildcloud_runners
+  stage: Build
+  dependencies:
+    - linting
+    - tests
+  script: |
+    base64 -d > android/$ANDROID_KEYSTORE_FILE
+    sed -i '' "s/BUILD_NUMBER=.*/BUILD_NUMBER=$BUILD_NUMBER/" config/prod.env
+    flutter build appbundle --flavor prod --build-number $BUILD_NUMBER --verbose
+    flutter build apk --flavor prod --build-number $BUILD_NUMBER --verbose
+  artifacts:
+    name: android
+    paths:
+      - build/app/outputs/bundle/prodRelease/*.aab
+      - build/app/outputs/flutter-apk/*.apk
+
+android_staging_build:
+  extends: .macos_buildcloud_runners
+  stage: Build
+  dependencies:
+    - linting
+    - tests
+  script: |
+    base64 -d > android/$ANDROID_KEYSTORE_FILE
+    sed -i '' "s/BUILD_NUMBER=.*/BUILD_NUMBER=$BUILD_NUMBER/" config/staging.env
+    flutter build apk --flavor staging --build-number $BUILD_NUMBER --verbose
+  artifacts:
+    name: android
+    paths:
+      - build/app/outputs/apk/staging/release/*.apk
+
+ios_prod_build:
+  extends: .macos_buildcloud_runners
+  stage: Build
+  dependencies:
+    - linting
+    - tests
+  script: |
+    sed -i '' "s/BUILD_NUMBER=.*/BUILD_NUMBER=$BUILD_NUMBER/" config/.env
+    flutter build ios --build-number $BUILD_NUMBER --no-codesign --verbose
+
+    
+android_app_tester:
+  extends: .macos_buildcloud_runners
+  stage: Deploy
+  dependencies:
+    - android_prod_build
+    - android_staging_build
+  script: |
+    curl -sL https://firebase.tools | bash
+    firebase appdistribution:distribute build/app/outputs/flutter-apk/app-prod-release.apk \
+    --app $FIREBASE_ANDROID_APP_ID --token $FIREBASE_DEPLOY_TOKEN
+

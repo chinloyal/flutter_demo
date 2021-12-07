@@ -1,0 +1,22 @@
+dependencies: \
+  /Users/chinloyal/Projects/flutter_demo/ios/Runner/GeneratedPluginRegistrant.m \
+  /Users/chinloyal/Projects/flutter_demo/ios/Runner/GeneratedPluginRegistrant.h \
+  /Users/chinloyal/Projects/flutter_demo/ios/build/Release-iphoneos/Flutter.framework/Modules/module.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.3.sdk/usr/include/mach-o/compact_unwind_encoding.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.3.sdk/usr/include/mach-o/dyld.modulemap \
+  /Users/chinloyal/Projects/flutter_demo/ios/build/Release-iphoneos/Flutter.framework/Headers/FlutterViewController.h \
+  /Users/chinloyal/Projects/flutter_demo/ios/build/Release-iphoneos/Flutter.framework/Headers/FlutterPluginAppLifeCycleDelegate.h \
+  /Users/chinloyal/Projects/flutter_demo/ios/build/Release-iphoneos/Flutter.framework/Headers/FlutterHeadlessDartRunner.h \
+  /Users/chinloyal/Projects/flutter_demo/ios/build/Release-iphoneos/Flutter.framework/Headers/FlutterEngineGroup.h \
+  /Users/chinloyal/Projects/flutter_demo/ios/build/Release-iphoneos/Flutter.framework/Headers/FlutterEngine.h \
+  /Users/chinloyal/Projects/flutter_demo/ios/build/Release-iphoneos/Flutter.framework/Headers/FlutterDartProject.h \
+  /Users/chinloyal/Projects/flutter_demo/ios/build/Release-iphoneos/Flutter.framework/Headers/FlutterCallbackCache.h \
+  /Users/chinloyal/Projects/flutter_demo/ios/build/Release-iphoneos/Flutter.framework/Headers/FlutterTexture.h \
+  /Users/chinloyal/Projects/flutter_demo/ios/build/Release-iphoneos/Flutter.framework/Headers/FlutterPlatformViews.h \
+  /Users/chinloyal/Projects/flutter_demo/ios/build/Release-iphoneos/Flutter.framework/Headers/FlutterCodecs.h \
+  /Users/chinloyal/Projects/flutter_demo/ios/build/Release-iphoneos/Flutter.framework/Headers/FlutterChannels.h \
+  /Users/chinloyal/Projects/flutter_demo/ios/build/Release-iphoneos/Flutter.framework/Headers/FlutterBinaryMessenger.h \
+  /Users/chinloyal/Projects/flutter_demo/ios/build/Release-iphoneos/Flutter.framework/Headers/FlutterPlugin.h \
+  /Users/chinloyal/Projects/flutter_demo/ios/build/Release-iphoneos/Flutter.framework/Headers/FlutterMacros.h \
+  /Users/chinloyal/Projects/flutter_demo/ios/build/Release-iphoneos/Flutter.framework/Headers/FlutterAppDelegate.h \
+  /Users/chinloyal/Projects/flutter_demo/ios/build/Release-iphoneos/Flutter.framework/Headers/Flutter.h

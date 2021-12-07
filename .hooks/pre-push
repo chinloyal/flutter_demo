@@ -1,0 +1,9 @@
+#!/bin/bash
+
+. "./.hooks/utils/log.sh"
+. "./.hooks/utils/branch.sh"
+
+
+validateBranchName
+upToDate
+success "All the required checks have been passed"
