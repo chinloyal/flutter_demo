@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/src/router/start_up_controller.dart';
 import 'src/core/utils/env.dart';
 import 'src/core/utils/service_locator.dart';
 import 'src/app.dart';
@@ -9,6 +10,9 @@ void main() async {
   const env = String.fromEnvironment('ENV');
   await loadEnv(type: env);
   await ServiceLocator.register();
+
+  final startup = StartUpController();
+  await startup.initializeApp();
   // Set up the SettingsController, which will glue user settings to multiple
   // Flutter Widgets.
   final settingsController = SettingsController(SettingsService());
@@ -20,5 +24,8 @@ void main() async {
   // Run the app and pass in the SettingsController. The app listens to the
   // SettingsController for changes, then passes it further down to the
   // SettingsView.
-  runApp(MyApp(settingsController: settingsController));
+  runApp(MyApp(
+    settingsController: settingsController,
+    startUpController: startup,
+  ));
 }

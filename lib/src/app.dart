@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/src/router/start_up_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_demo/src/router/app_router.dart';
@@ -11,9 +12,11 @@ class MyApp extends StatelessWidget {
   const MyApp({
     Key? key,
     required this.settingsController,
+    required this.startUpController,
   }) : super(key: key);
 
   final SettingsController settingsController;
+  final StartUpController startUpController;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +29,8 @@ class MyApp extends StatelessWidget {
       builder: (BuildContext context, Widget? child) {
         return MaterialApp(
           navigatorKey: AppRouter.navigatorKey,
+          initialRoute: startUpController.getInitialRoute(),
+          debugShowCheckedModeBanner: false,
           // Providing a restorationScopeId allows the Navigator built by the
           // MaterialApp to restore the navigation stack when a user leaves and
           // returns to the app after it has been killed while running in the
